@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "150680960224",
+    "project_id": "shohozkotha",
+    "storage_bucket": "shohozkotha.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150680960224:android:73b8926087d98ec6cc2485",
+        "android_client_info": {
+          "package_name": "com.example.shohoj_kotha_2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHcDI7Mz0N1eaBnJPZhFHg1BC8k6erJv4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
