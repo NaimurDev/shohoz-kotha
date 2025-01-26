@@ -115,8 +115,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       });
                       Navigator.pushNamed(context, ChatScreen.id);
                       
-                    } catch (e) {
+                    } catch (e, trace) {
                       print(e);
+                      print(trace);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(e.toString()),
