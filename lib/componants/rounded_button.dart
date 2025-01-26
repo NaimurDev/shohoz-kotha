@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class RoundedButton extends StatelessWidget {
-  RoundedButton({super.key, this.title = '', this.color = Colors.lightBlueAccent, required this.onPressed});
+  const RoundedButton({super.key, this.title = '', this.color = Colors.lightBlueAccent, required this.onPressed});
 
   final String title;
   final Color color; // Changed type to Color
@@ -22,7 +22,7 @@ class RoundedButton extends StatelessWidget {
           height: 42.0,
           child: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
             ),// Using the title parameter here
           ),

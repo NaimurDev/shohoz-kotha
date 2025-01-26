@@ -8,6 +8,8 @@ import 'login_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String id = "welcome_screen";
+
+  const WelcomeScreen({super.key});
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
@@ -20,7 +22,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
   void initState() {
     super.initState();
     controller = AnimationController(
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
       vsync: this,
     );
 
@@ -32,7 +34,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -46,7 +48,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                     child: Image.asset('images/logo.png'),
                   ),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 DefaultTextStyle(
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     fontSize: 36.0,
@@ -61,7 +63,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 48.0,
             ),
             RoundedButton(

@@ -7,6 +7,8 @@ import '../componants/rounded_button.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const String id = "registration_screen";
+
+  const RegistrationScreen({super.key});
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
@@ -24,19 +26,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         inAsyncCall: showSpinner,
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                SizedBox(
+                const SizedBox(
                   height: 150,
                 ),
                 SizedBox(
                   height: 200.0,
                   child: Image.asset('images/logo.png'),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 48.0,
                 ),
                 TextField(
@@ -44,7 +46,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     email = value;
                   },
                   keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: 'Enter your email',
                     contentPadding:
                     EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
@@ -61,7 +63,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8.0,
                 ),
                 TextField(
@@ -69,7 +71,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     password = value;
                   },
                   obscureText: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: 'Enter your password',
                     contentPadding:
                     EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
@@ -86,7 +88,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 24.0,
                 ),
                 RoundedButton(
@@ -102,10 +104,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     password: password,
                   );
                   try{
-                    if(newUser != null){
-                      Navigator.pushNamed(context, ChatScreen.id);
-                    }
-                    setState(() {
+                    Navigator.pushNamed(context, ChatScreen.id);
+                                      setState(() {
                       showSpinner = false;
                     });
                   }catch(e){
