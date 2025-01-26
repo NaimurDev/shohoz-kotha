@@ -1,17 +1,17 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shohoj_kotha_2/screens/chat_screens.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../componants/rounded_button.dart';
-import 'chat_screens.dart';
 
-class LoginScreen extends StatefulWidget {
-  static const String id = "login_screen";
+class RegistrationScreen extends StatefulWidget {
+  static const String id = "registration_screen";
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _RegistrationScreenState createState() => _RegistrationScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegistrationScreenState extends State<RegistrationScreen> {
   String email = '';
   String password = '';
   final _auth = FirebaseAuth.instance;
@@ -32,19 +32,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   height: 150,
                 ),
-                Hero(
-                  tag: "logo",
-                  child: SizedBox(
-                    height: 200.0,
-                    child: Image.asset('images/logo.png'),
-                  ),
+                SizedBox(
+                  height: 200.0,
+                  child: Image.asset('images/logo.png'),
                 ),
                 SizedBox(
                   height: 48.0,
                 ),
                 TextField(
                   onChanged: (value) {
-                   email = value;
+                    email = value;
                   },
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
@@ -55,13 +52,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.all(Radius.circular(32.0)),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: Colors.lightBlueAccent, width: 1.0),
+                      borderSide: BorderSide(color: Colors.blueAccent, width: 1.0),
                       borderRadius: BorderRadius.all(Radius.circular(32.0)),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: Colors.lightBlueAccent, width: 2.0),
+                      borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(32.0)),
                     ),
                   ),
@@ -75,20 +70,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   obscureText: true,
                   decoration: InputDecoration(
-                    hintText: 'Enter your password.',
+                    hintText: 'Enter your password',
                     contentPadding:
                     EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(32.0)),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: Colors.lightBlueAccent, width: 1.0),
+                      borderSide: BorderSide(color: Colors.blueAccent, width: 1.0),
                       borderRadius: BorderRadius.all(Radius.circular(32.0)),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: Colors.lightBlueAccent, width: 2.0),
+                      borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(32.0)),
                     ),
                   ),
@@ -97,23 +90,27 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 24.0,
                 ),
                 RoundedButton(
-                  title: 'Log In',
+                  title: 'Register',
                   color: Colors.lightBlueAccent,
-                  onPressed: () async{
+                  onPressed: ()async{
+                    //TODO
                     setState(() {
                       showSpinner = true;
                     });
-                    final user = await _auth.signInWithEmailAndPassword(email: email, password: password,);
-                    try{
-                      if(user != null){
-                        Navigator.pushNamed(context, ChatScreen.id);
-                      }
-                      setState(() {
-                        showSpinner = false;
-                      });
-                    }catch(e){
-                      print(e);
+                  final newUser = await _auth.createUserWithEmailAndPassword(
+                    email: email,
+                    password: password,
+                  );
+                  try{
+                    if(newUser != null){
+                      Navigator.pushNamed(context, ChatScreen.id);
                     }
+                    setState(() {
+                      showSpinner = false;
+                    });
+                  }catch(e){
+                    print(e);
+                  }
                   },
                 ),
               ],

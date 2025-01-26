@@ -1,5 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:shohoj_kotha_2/screens/registration_screen.dart';
 
 
 import '../componants/rounded_button.dart';
@@ -74,6 +75,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
               title: 'Register',
               color: Colors.blueAccent,
               onPressed: (){
+                Navigator.pushNamed(context, RegistrationScreen.id);
               },
             ),
           ],
