@@ -1,5 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_constructors
 
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -31,21 +33,6 @@ class _ChatScreenState extends State<ChatScreen> {
       }
     } catch (e) {
       print(e);
-    }
-  }
-
-  void getMessages() async {
-    final messages = await _firestore.collection('messages').get();
-    for (var messages in messages.docs) {
-      print(messages.data());
-    }
-  }
-
-  void getMessageStreams() async {
-    await for (var snapshot in _firestore.collection('messages').snapshots()) {
-      for (var messages in snapshot.docs) {
-        print(messages.data());
-      }
     }
   }
 
@@ -99,8 +86,10 @@ class _ChatScreenState extends State<ChatScreen> {
                     onPressed: () {
                       textController.clear();
                       _firestore.collection('messages').add({
+                        'type': 'text',
                         'text': messageText,
                         'sender': loggedInUser?.email,
+                        'timestamp': FieldValue.serverTimestamp(),
                       });
                     },
                     child: const Text('Send'),
@@ -119,7 +108,8 @@ class MessageStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-        stream: _firestore.collection('messages').snapshots(),
+        stream:
+            _firestore.collection('messages').orderBy('timestamp').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final messages = snapshot.data!.docs.reversed;
@@ -133,6 +123,7 @@ class MessageStream extends StatelessWidget {
                 text: messageText,
                 sender: messageSender,
                 isMyMessage: currentUser == messageSender,
+                type: message['type'],
               );
               messageBubbles.add(messageBubble);
             }
@@ -147,8 +138,13 @@ class MessageStream extends StatelessWidget {
               ),
             );
           } else {
-            return CircularProgressIndicator(
-              backgroundColor: Colors.lightBlueAccent,
+            return Center(
+              child: SizedBox(
+                height: 40.0,
+                child: CircularProgressIndicator(
+                  backgroundColor: Colors.lightBlueAccent,
+                ),
+              ),
             );
           }
         });
@@ -160,11 +156,13 @@ class MessageBubble extends StatelessWidget {
     required this.text,
     required this.sender,
     this.isMyMessage = false,
+    this.type = 'text',
   });
 
   final String text;
   final String sender;
   final bool isMyMessage;
+  final String type;
 
   @override
   Widget build(BuildContext context) {
@@ -172,7 +170,7 @@ class MessageBubble extends StatelessWidget {
       padding: const EdgeInsets.all(10.0),
       child: Column(
         crossAxisAlignment:
-        isMyMessage ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+            isMyMessage ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
           Text(
             sender,
@@ -182,25 +180,27 @@ class MessageBubble extends StatelessWidget {
             color: isMyMessage ? Color(0xFF006AFF) : Colors.pinkAccent,
             borderRadius: isMyMessage
                 ? BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(0))
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(0))
                 : BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
-                topLeft: Radius.circular(0),
-                topRight: Radius.circular(30)),
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
+                    topLeft: Radius.circular(0),
+                    topRight: Radius.circular(30)),
             elevation: 5.0,
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 10,
                 vertical: 10,
               ),
-              child: Text(
-                text,
-                style: TextStyle(fontSize: 15, color: Colors.white),
-              ),
+              child: type == 'text'
+                  ? Text(
+                      text,
+                      style: TextStyle(fontSize: 15, color: Colors.white),
+                    )
+                  : Image.memory(base64Decode(text)),
             ),
           ),
         ],
