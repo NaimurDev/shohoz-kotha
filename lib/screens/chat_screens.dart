@@ -132,8 +132,16 @@ class _ChatScreenState extends State<ChatScreen> {
       // Convert the image bytes to a Base64 string
       final String base64Image = base64Encode(imageBytes);
 
-      print("Base64 Image: $base64Image");
       
+      if((base64Image.length * 2) > 1044576){
+        print('Image size is too large');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Image size is too large'),
+          ),
+        );
+        return;
+      }
       textController.clear();
 
       setState(() {
